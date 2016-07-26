@@ -1,6 +1,7 @@
 package com.nnsuu.suu.anime;
 
 import com.nnsuu.suu.Suu;
+import com.nnsuu.suu.scene.Scene;
 
 public class SuuAnime implements Anime{
     String actorName;
@@ -10,6 +11,19 @@ public class SuuAnime implements Anime{
 
     int rx,ry, rfps;
     float rsb,rrotate;
+    public SuuAnime(String actorName, int fps, Scene scene){
+        this.actorName = actorName;
+        this.x = scene.get(actorName).getX();
+        this.y = scene.get(actorName).getY();
+        this.sb = scene.get(actorName).getSB();
+        this.rotate = scene.get(actorName).getRotate();
+        this.fps = fps;
+
+        opFlag = true;
+        if (fps < 0)
+            rfps = fps;
+    }
+
     public SuuAnime(String actorName,int x,int y,double sb,double rotate,int fps){
         this.actorName = actorName;
         this.x = x;

@@ -1,4 +1,6 @@
 package com.nnsuu.suu.scene;
+import com.nnsuu.suu.Suu;
+
 import java.util.HashMap;
 
 public class SuuScenes implements Scenes{

@@ -27,10 +27,30 @@ public abstract class Actor implements ActorTouch{
 
     public abstract void op();
     public abstract void play();
-    public abstract void draw();
+    public void draw() {
+        Suu.gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertices);
+        Suu.gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, texture);
+        Suu.gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
+        Suu.gl.glTexParameterf(GL10.GL_TEXTURE_2D,GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+        Suu.gl.glPushMatrix();
+        Suu.gl.glRotatef(rotate,0,0,1);
+        Suu.gl.glTranslatef(x,y,0);
+        Suu.gl.glScalef(width*sb,height*sb,1);
+        Suu.gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, 6,GL10.GL_UNSIGNED_SHORT, indices);
+        Suu.gl.glPopMatrix();
+    }
 
     public void setPlayID(int playID){
         this.playID = playID;
+        update();
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void setXY(int x, int y) {
@@ -88,11 +108,8 @@ public abstract class Actor implements ActorTouch{
         return sb;
     }
 
-    public void updateTexture(){
-        Suu.gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
-        Suu.gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-        Suu.gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, (Bitmap) Suu.skins.getSkin(key).get(playID/playSpeed), 0);
+    public String getKey(){
+        return key;
     }
 
     public void update(){

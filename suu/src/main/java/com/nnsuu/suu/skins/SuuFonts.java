@@ -21,7 +21,7 @@ public class SuuFonts implements Fonts {
             if(loadMode == LoadMode.SDCard) {
                 typefaces.put(filepath, Typeface.createFromFile(filepath));
             } else {
-                typefaces.put(filepath, Typeface.createFromAsset(Suu.app.getResources().getAssets(), filepath));
+                typefaces.put(filepath, Typeface.createFromAsset(Suu.app.getAssets(), filepath));
             }
         }
     }

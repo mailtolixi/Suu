@@ -2,11 +2,10 @@ package com.nnsuu.suu;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,8 +13,7 @@ import android.view.WindowManager;
 import com.nnsuu.suu.camera.SuuCamera;
 import com.nnsuu.suu.scene.SuuScenes;
 import com.nnsuu.suu.skins.SuuSkins;
-
-import junit.framework.Assert;
+import com.nnsuu.suu.sound.SuuSounds;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -84,16 +82,29 @@ public abstract class SuuActivity extends Activity implements SuuActivityInterfa
         Suu.camera = new SuuCamera();
         Suu.skins = new SuuSkins();
         Suu.scenes = new SuuScenes();
+        Suu.sounds = new SuuSounds();
     }
 
     protected void onPause(){
         super.onPause();
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        if (Suu.scenes != null) {
+            Suu.scenes.getScene().pause();
+        }
+        if (Suu.sounds != null) {
+            Suu.sounds.pause();
+        }
     }
     protected void onResume(){
         Log.d("nnsuu.com/n","surface resume");
         super.onResume();
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        if (Suu.scenes != null) {
+            Suu.scenes.getScene().resume();
+        }
+        if (Suu.sounds != null) {
+            Suu.sounds.resume();
+        }
     }
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -112,5 +123,13 @@ public abstract class SuuActivity extends Activity implements SuuActivityInterfa
 
     public boolean onTouchEvent(MotionEvent event) {
         return Suu.scenes.getScene().touch(event);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            Suu.scenes.getScene().back();
+            return false;
+        }
+        return true;
     }
 }
